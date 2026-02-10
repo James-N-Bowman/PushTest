@@ -1,0 +1,24 @@
+name: Test Pushover Notification
+on:
+  workflow_dispatch:  # Manual trigger only - click "Run workflow" button
+
+jobs:
+  send-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      
+      - name: Install requests
+        run: pip install requests
+      
+      - name: Send Pushover notification
+        env:
+          PUSH_API_TOKEN: ${{ secrets.PUSH_API_TOKEN }}
+          PUSH_USER_KEY: ${{ secrets.PUSH_USER_KEY }}
+        run: python push_test.py
